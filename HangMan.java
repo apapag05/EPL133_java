@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 
 /**
  * This class creates a HangMan object and runs the main method.
- * 
+ * SKATA N FAEI ^2
  * @author Andria-Maria Papageorgiou & Athina Nicolaou
  * @since 14/4/2021
  *
