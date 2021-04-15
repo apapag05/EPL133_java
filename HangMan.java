@@ -6,8 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
- * This class creates a HangMan object and runs the main method. SKATA NA DAEI
- * TO GIT
+ * This class creates a HangMan object and runs the main method. 
  * 
  * @author Andria-Maria Papageorgiou & Athina Nicolaou
  * @since 14/4/2021
@@ -65,11 +64,21 @@ public class HangMan {
 		return s;
 	}
 
+	/**
+	 * This method update the array with the characters of the missing word by changing the dashes if the player has found
+	 * a letter of the word.
+	 * @param c is the giver character of the player.
+	 * @param indeces a List with the indeces of the word which have the given character.
+	 */
 	public void updateWord(char c, List<Integer> indeces) {
 		if (indeces != null) {
 			for (int index : indeces) {
 				current[index] = c;
 			}
+			if (indeces.size()==1)
+				System.out.println("Yes, there is one " + c + "\n");
+			else if (indeces.size()>1)
+				System.out.println("Yes, there are " + indeces.size() + " " + c + "'s\n");
 		}
 	}
 
@@ -77,11 +86,11 @@ public class HangMan {
 	 * This method is the representation of the {@link HangMan}.
 	 */
 	public String toString() {
-		String s = "\n";
+		String s = "";
 		s += "guesses : " + guesses + "\n";
 		s += "words : " + words.getLength();
 		s += "\nguessed : " + guessed;
-		s += "\ncurrent : " + printCurrent() + "\n";
+		s += "\ncurrent : " + printCurrent();
 		return s;
 	}
 
@@ -140,18 +149,20 @@ public class HangMan {
 	 */
 	public boolean win() {
 		if (this.guesses == 0) {
-			return true;
-		} else {
+			System.out.println("answer = " + words.getWord() + "\nSorry, you lose");
+			return false;
+		} 
+		else {
 			// if all the characters of the array have a different value from '-' then it
 			// means that
 			// the player has found all the letters of the missing word.
 			for (int i = 0; i < current.length; i++) {
 				if (current[i] == '-') {
-					return false;
+					return true;
 				}
-
 			}
-			return true;
+			System.out.println("answer = " + words.getWord() + "\nYou beat me");
+			return false;
 		}
 
 	}
@@ -167,10 +178,6 @@ public class HangMan {
 		Scanner scan = new Scanner(System.in);
 		for (String letter : guessed) {
 			if (letter.equals(guess)) {
-				/*
-				 * System.out.println("You already guessed that\n"); System.out.println(this);
-				 * System.out.print("Your guess? "); curGuess=scan.next();
-				 */
 				return true;
 			}
 		}
@@ -196,6 +203,11 @@ public class HangMan {
 		return true;
 	}
 
+	/**
+	 * This method checks if a word has the given letter, it means that the player guessed right.
+	 * @param c is a given character.
+	 * @param word is the word which will be checked.
+	 */
 	public void hasLetter(char c,String word) {
 		boolean flag=false;
 		for (int i = 0; i < word.length(); i++) {
@@ -203,8 +215,11 @@ public class HangMan {
 				flag = true;
 			}
 		}
-		if (flag==false)
-			System.out.println("\nSorry, there are no " + c + "'s");
+		//if the character is not in the word, then the tries will be decreased
+		if (flag==false) {
+			guesses--;
+			System.out.println("Sorry, there are no " + c + "'s\n");
+		}
 
 	}
 
@@ -215,7 +230,7 @@ public class HangMan {
 	 * accordingly.
 	 */
 	public void play() {
-		while (!win()) {
+		while (win()) {
 			Scanner scan = new Scanner(System.in);
 			System.out.println(this.toString()); // print HangMan
 			System.out.print("Your guess? ");
@@ -227,10 +242,9 @@ public class HangMan {
 			} else {
 				words.initializeArray();
 				guessed.add(curGuess); // add the letter/char in the list of guesses
-				guesses--; // decreases the tries/guesses
 				words.moves(curGuess);
-				updateWord(curGuess.charAt(0), words.hasLetter(curGuess));
-				hasLetter(curGuess.charAt(0), words.getWord());
+				updateWord(curGuess.charAt(0), words.hasLetter(curGuess)); //update the letters the player found of the word
+				hasLetter(curGuess.charAt(0), words.getWord()); //to see if the player guessed right
 			}
 
 		}
@@ -246,21 +260,27 @@ public class HangMan {
 	public static void main(String[] args) {
 
 		List<String> dictionary = new ArrayList<String>(); // a list for all the words of the game
-		System.out.println("Welcome to the hangman game.");
-
+		System.out.println("Welcome to the hangman game.\n");
+		int c=0;
 		// reads from a file and adds all the Strings in a list.
 		try {
 			File infile = new File(args[0]);
 			Scanner scan = new Scanner(infile);
 			while (scan.hasNextLine()) {
 				dictionary.add(scan.nextLine());
+				c++;
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		
+		int counter=0;
+		for (String word : dictionary) {
+			if (word.length()==4)
+				counter++;
+		}
+		System.out.println(c+ " " +counter);
 		int[] array = new int[2];
 		array = checkArgs(args[1], args[2]); // check the arguments
 		HangMan hangMan = new HangMan(dictionary, array[0], array[1]); // creates HangMan game
