@@ -20,11 +20,14 @@ public class PossibleWords {
 	 */
 	public PossibleWords(List<String> dictionary, int length) {
 		currentList = new ArrayList<String>();
-		
 		//add all words in the current list
 		for (String word : dictionary) {
 			if (word.length() == length)
 				currentList.add(word);
+		}
+		if (currentList.size()==0) {
+			System.out.println("There are no words with this length in the txt file.");
+			System.exit(0);
 		}
 		
 		//length of array equals all the possible combinations depending on the length of the word
@@ -94,6 +97,21 @@ public class PossibleWords {
 			currentList=copyList(allLists[0]);
 		}
 		printList(currentList);
+	}
+	
+	public List<Integer> hasLetter(String character) {
+		List<Integer> indeces=new ArrayList<Integer>();
+		for (int i=0;i<currentList.get(0).length();i++) {
+			if (currentList.get(0).charAt(i)==character.charAt(0)) {
+				indeces.add(i);
+			}
+		}
+		return indeces;
+		
+	}
+	
+	public String getWord() {
+		return currentList.get(0);
 	}
 	
 	public List<String> copyList(List<String> list) {
