@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * This class represents the operation which chooses in each round the list with the remaining words of the {@link HangMan} game.
- * @author Andria-Maria Papageorgiou & Athina Nicolaou
+ * @author Andria-Maria Papageorgiou Athina Nicolaou
  * @since 14/4/2021
  *
  */
@@ -16,7 +16,7 @@ public class PossibleWords {
 	/**
 	 * The constructor creates the lists with all the words of the game.
 	 * @param dictionary is a list with all given words.
-	 * @param length is the length of the missing word of (@link HangMan}.
+	 * @param length is the length of the missing word of {@link HangMan}.
 	 */
 	public PossibleWords(List<String> dictionary, int length) {
 		currentList = new ArrayList<String>();

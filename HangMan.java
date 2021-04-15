@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 /**
  * This class creates a HangMan object and runs the main method. 
  * 
- * @author Andria-Maria Papageorgiou & Athina Nicolaou
+ * @author Andria-Maria Papageorgiou Athina Nicolaou
  * @since 14/4/2021
  *
  */
@@ -226,7 +226,7 @@ public class HangMan {
 	/**
 	 * This method is the play method of the {@link HangMan}, while there is not a
 	 * winner the PC asks for another guess from the user. Checks if the input is
-	 * {@link validGuess()} or {@link sameGuess()} and executes specific commands
+	 * {@link validGuess(String guess)} or {@link sameGuess(String guess)} and executes specific commands
 	 * accordingly.
 	 */
 	public void play() {
@@ -270,20 +270,14 @@ public class HangMan {
 				dictionary.add(scan.nextLine());
 				c++;
 			}
+			int[] array = new int[2];
+			array = checkArgs(args[1], args[2]); // check the arguments
+			HangMan hangMan = new HangMan(dictionary, array[0], array[1]); // creates HangMan game
+			hangMan.play(); // play HangMan
 			scan.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-		int counter=0;
-		for (String word : dictionary) {
-			if (word.length()==4)
-				counter++;
-		}
-		System.out.println(c+ " " +counter);
-		int[] array = new int[2];
-		array = checkArgs(args[1], args[2]); // check the arguments
-		HangMan hangMan = new HangMan(dictionary, array[0], array[1]); // creates HangMan game
-		hangMan.play(); // play HangMan
 	}
 }
